@@ -31,7 +31,8 @@ function updateDashboard (data, type) { //function expects JSON data and string 
 // 3. Cities in list
     if (type === 'current'){
         $("#city-heading").text(data.name);
-        $("#date").text(data.dt);
+        var formattedDate = moment.unix(data.dt).format(" (M/DD/YYYY)")
+        $("#date").text(formattedDate);
     }
     }
 
@@ -56,7 +57,7 @@ $("#searchBtn").on("click",function () {
   event.preventDefault();
   
   // full url to call api
-    var queryURLcurrent = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=imperial";
+    var queryURLcurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=imperial";
     //`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
 
   $.ajax({
@@ -72,7 +73,7 @@ $("#searchBtn").on("click",function () {
     
 });
 
-var queryURL5day = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey + "&units=imperial";
+var queryURL5day = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey + "&units=imperial";
 $.ajax({
     url: queryURL5day,
     method: "GET",
