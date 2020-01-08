@@ -1,12 +1,7 @@
 // global variables
-var city = "Your Location";                  // store the value of the input
+// var city = "Your Location";                  // store the value of the input
 const apiKey = "2fb02c7aa049104e9c50b0827ae0fae4";      // store api key
 
-// var cityHeading = $("#city-heading");
-// var date = $("#date");
-var currentTemperature = $("#current-temperature");
-var currentHumidity = $("#current-humidity");
-var currentWindSpeed = $("#current-wind-speed");
 var currentUVIndex = $("#current-uv-index");
 var appendToMe = $("#append-to-me");
 
@@ -15,7 +10,7 @@ function saveCity () {
     localStorage.setItem("city", city);
     // var cityDiv = $("<div>" + city + "</div>");
     // cityDiv.addClass
-    var cityBtn = `<button type="button" class="btn btn-secondary">${city}</button>`; // template literal
+    var cityBtn = `<button type="button" class="btn btn-secondary" id="cityBtn">${city}</button>`; // template literal
     appendToMe.append(cityBtn);
     // cityDiv.setAttribute("style", "text-align: center;");  // this isn't working
     
@@ -33,12 +28,33 @@ function updateDashboard (data, type) { //function expects JSON data and string 
         $("#city-heading").text(data.name);
         var formattedDate = moment.unix(data.dt).format(" (M/DD/YYYY)")
         $("#date").text(formattedDate);
+        $("#date").text(formattedDate);
+        $("#current-temperature").text("Temperature: " + data.main.temp);
+        $("#current-humidity").text("Humidity: " + data.main.humidity);
+        $("#current-wind-speed").text("Wind Speed: " + data.wind.speed);
+    
+        var city = data.name;
+        var queryURL5day = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey + "&units=imperial";
+$.ajax({
+    url: queryURL5day,
+    method: "GET",
+    dataType: "json",
+    
+  }).then(function (response) {
+
+    console.log(response);
+    var fiveDayResult = response;
+
+    var formattedFiveDate = moment.unix(data.dt).format(" (M/DD/YYYY)")
+    $("#date1").text(formattedFiveDate);
+    // updateDashboard(fiveDayResult, "five-day")
+});
     }
     }
 
-function getCity () {
+// function getCity () {
 // Updates the list.  Gets called twice.    
-}
+// }
 
 // event handler for return key
 $("#searchCity").keypress(function (event) {
@@ -73,18 +89,6 @@ $("#searchBtn").on("click",function () {
     
 });
 
-var queryURL5day = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey + "&units=imperial";
-$.ajax({
-    url: queryURL5day,
-    method: "GET",
-    dataType: "json",
-    
-  }).then(function (response) {
-
-    var fiveDayResult = response;
-    console.log(fiveDayResult);
-    updateDashboard(fiveDayResult, "five-day")
-});
 
 saveCity();
 
@@ -96,7 +100,7 @@ function getCoordinates() {
         var lat = position.coords.latitude;
         var lon = position.coords.longitude;
         //api.openweathermap.org/data/2.5/weather?lat=35&lon=139
-        var queryURLcurrent = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+        var queryURLcurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
     
       $.ajax({
         url: queryURLcurrent,
@@ -106,7 +110,6 @@ function getCoordinates() {
       }).then(function (response) {
     
         var currentResult = response;
-        console.log(currentResult);
         updateDashboard(currentResult, 'current');
         
      });

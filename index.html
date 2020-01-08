@@ -7,14 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Font Awesome link-->
     <script src="https://kit.fontawesome.com/ca89a4b9f5.js" crossorigin="anonymous"></script>
+    <!-- Moment JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <!-- Bootstrap Link-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- My style sheet -->
-
     <link rel="stylesheet" href="style.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <title>Weather Dashboard</title>
 
 </head>
@@ -39,24 +38,25 @@
                 <div class="row">
 
                     <div class="col-lg-9 bg-light pt-3 pb-3" id="search">Search for a City
-                    <input id="searchCity" type="text" class="form-control" placeholder="City name"
-                    class="input-group-append">
+                        <input id="searchCity" type="text" class="form-control" placeholder="City name"
+                            class="input-group-append">
                     </div>
-                    
+
                     <div class="col-lg-3 bg-light pt-3 pb-3">
                         <button id="searchBtn" class="btn btn-primary" type="button" id="button-addon2"><i
-                            class="far fa-search"></i></button>
+                                class="far fa-search"></i></button>
                     </div>
-                    
-                </div> <!--end of row-->
+
+                </div>
+                <!--end of row-->
                 <div id="append-to-me" class="btn-group-vertical">
-                    
+
                 </div>
             </div>
 
             <div class="col-lg-9 bg-light pt-3 pb-3">
                 <form>
-                    <h2><span id="city-heading"></span><span id="date">(MM/DD/YYYY)</span></h2>
+                    <h2><span id="city-heading"></span><span id="date"></span></h2>
                     <div id="current-temperature">Temperature</div>
                     <div id="current-humidity">Humidity</div>
                     <div id="current-wind-speed">Wind Speed</div>
@@ -65,15 +65,54 @@
                     <div id="five-day">5-Day Forecast</div>
 
                     <div class="card-deck">
-                        <!-- <div class="card">
+
+                        <div class="card">
                             <div class="card-body">
-                                <h5 id ="date1">Date</h5>
-                                <i class='fas'></i> this will be the weather icon
+                                <h5 id="date1">Date</h5>
+                                <img id='icon1' src=" "></img>
                                 <p id="day1-temp">Temp:</p>
                                 <p id="day1-humidity">Humidity:</p>
                             </div>
-                         </div> -->
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 id="date2">Date</h5>
+                                <i class='fas'></i> this will be the weather icon
+                                <p id="day2-temp">Temp:</p>
+                                <p id="day2-humidity">Humidity:</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 id="date3">Date</h5>
+                                <i class='fas'></i> this will be the weather icon
+                                <p id="day3-temp">Temp:</p>
+                                <p id="day3-humidity">Humidity:</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 id="date4">Date</h5>
+                                <i class='fas'></i> this will be the weather icon
+                                <p id="day4-temp">Temp:</p>
+                                <p id="day4-humidity">Humidity:</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 id="date5">Date</h5>
+                                <i class='fas'></i> this will be the weather icon
+                                <p id="day5-temp">Temp:</p>
+                                <p id="day5-humidity">Humidity:</p>
+                            </div>
+                        </div>
+
                     </div>
+
                 </form>
             </div>
 
