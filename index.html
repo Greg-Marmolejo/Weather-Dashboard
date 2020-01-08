@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Font Awesome link-->
+    <script src="https://kit.fontawesome.com/ca89a4b9f5.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap Link-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- My style sheet -->
+
+    <link rel="stylesheet" href="style.css">
+    <title>Weather Dashboard</title>
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!--start of row 1-->
+
+            <div class="col-lg-12 bg-light pt-3 pb-3">
+                <h1>Weather Dashboard</h1>
+            </div>
+
+        </div>
+        <!--end of row 1 -->
+
+        <div class="row">
+            <!--start of row 2-->
+
+            <div class="col-lg-3 bg-light pt-3 pb-3">
+                <div class="row">
+
+                    <div class="col-lg-9 bg-light pt-3 pb-3" id="search">Search for a City
+                    <input id="searchCity" type="text" class="form-control" placeholder="City name"
+                    class="input-group-append">
+                    </div>
+                    
+                    <div class="col-lg-3 bg-light pt-3 pb-3">
+                        <button id="searchBtn" class="btn btn-primary" type="button" id="button-addon2"><i
+                            class="far fa-search"></i></button>
+                    </div>
+                    
+                </div> <!--end of row-->
+                <div id="append-to-me" class="btn-group-vertical">
+                    
+                </div>
+            </div>
+
+            <div class="col-lg-9 bg-light pt-3 pb-3">
+                <form>
+                    <h2><span id="city-heading"></span><span id="date">(MM/DD/YYYY)</span></h2>
+                    <div id="current-temperature">Temperature</div>
+                    <div id="current-humidity">Humidity</div>
+                    <div id="current-wind-speed">Wind Speed</div>
+                    <div id="current-uv-index">UV Index</div>
+
+                    <div id="five-day">5-Day Forecast</div>
+
+                    <div class="card-deck">
+                        <!-- <div class="card">
+                            <div class="card-body">
+                                <h5 id ="date1">Date</h5>
+                                <i class='fas'></i> this will be the weather icon
+                                <p id="day1-temp">Temp:</p>
+                                <p id="day1-humidity">Humidity:</p>
+                            </div>
+                         </div> -->
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <!--End container-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

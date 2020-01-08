@@ -1,0 +1,25 @@
+h1 {
+    background-color: dimgray;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+#five-day {
+    font-size: 36px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.fas {
+    font-size: 36px;
+}
+#search {
+    float: left;
+}
+
+#searchBtn {
+    position: relative;
+    top: 50 px;
+}
