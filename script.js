@@ -47,17 +47,16 @@ function saveCity(city) {
 
 function updateDashboard(data, type) { //function expects JSON data and string of type (either 5day or current)
   // gets cities everytime it's refreshed.  Gets called 3 times
-  // 1. couldn't read handwriting.
-  // 2. searching for a new city
-  // 3. Cities in list
-  // if (type === 'current') {
+  // 1. Upon loading page.
+  // 2. Searching for a new city.
+  // 3. Cities in list.
   $("#city-heading").text(data.name + " - ");
   console.log(data);
   var formattedDate = moment.unix(data.dt).format(" ddd, MMM Do")
   $("#date").text(formattedDate);
-  $("#current-temperature").text("Temperature: " + data.main.temp);
+  $("#current-temperature").text("Temperature: " + Math.floor(data.main.temp));
   $("#current-humidity").text("Humidity: " + data.main.humidity);
-  $("#current-wind-speed").text("Wind Speed: " + data.wind.speed);
+  $("#current-wind-speed").text("Wind Speed: " + Math.floor(data.wind.speed));
 
   var city = data.name;
   console.log(city);
@@ -78,9 +77,12 @@ function updateDashboard(data, type) { //function expects JSON data and string o
     for (var i = 0; i < 40; i += 8) {
       var formattedFiveDate = moment.unix(response.list[i].dt).format(" ddd, MMM Do")
       var tempFiveDay = Math.floor(response.list[i].main.temp);
-      var humidityFiveDay = response.list[i].main.humidity
+      var humidityFiveDay = response.list[i].main.humidity;
+      var icon = response.list[i].weather[0].icon;
       var idx = (i / 8) + 1;
+
       $("#date" + idx).text(formattedFiveDate);
+      $("#icon" + idx).attr("src", "https://openweathermap.org/img/w/" + icon + ".png")
       $("#day" + idx + "-temp").text("Temperature: " + tempFiveDay);
       $("#day" + idx + "-humidity").text("Humidity: " + humidityFiveDay);
       // updateDashboard(fiveDayResult, "five-day")
