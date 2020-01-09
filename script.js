@@ -1,22 +1,48 @@
 // global variables
-// var city = "Your Location";                  // store the value of the input
+var city = "Your Location";                  // store the value of the input
 const apiKey = "2fb02c7aa049104e9c50b0827ae0fae4";      // store api key
 
 var currentUVIndex = $("#current-uv-index");
 var appendToMe = $("#append-to-me");
 
-function saveCity() {
+function getWeather(city) {
+  if (city) {
+    var queryURLcurrent = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
+    getData(queryURLcurrent, city);
+
+  } else {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+      //api.openweathermap.org/data/2.5/weather?lat=35&lon=139
+      var queryURLcurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+      getData(queryURLcurrent, "current");
+    });
+  }
+}
+
+function getData(queryURL, str) {
+  $.ajax({
+    url: queryURL, 
+    method: "GET",
+    dataType: "json",
+
+  }).then(function (response) {
+
+    var currentResult = response;
+    updateDashboard(currentResult, str);
+
+  });
+}
+
+function saveCity(city) {
   // Puts the city in local storage.
   localStorage.setItem("city", city);
   // var cityDiv = $("<div>" + city + "</div>");
   // cityDiv.addClass
-  var cityBtn = `<button type="button" class="btn btn-secondary" id="cityBtn">${city}</button>`; // template literal
+  var cityBtn = `<button type="button" class="btn btn-secondary cityBtn" data-city=${city}>${city}</button>`; // template literal
   appendToMe.append(cityBtn);
-  // cityDiv.setAttribute("style", "text-align: center;");  // this isn't working
 
-  // Gets city everytime it's refreshed.
-  // Updates Dashboard.
-  // updateDashboard();
 };
 
 function updateDashboard(data, type) { //function expects JSON data and string of type (either 5day or current)
@@ -24,42 +50,48 @@ function updateDashboard(data, type) { //function expects JSON data and string o
   // 1. couldn't read handwriting.
   // 2. searching for a new city
   // 3. Cities in list
-  if (type === 'current') {
-    $("#city-heading").text(data.name);
-    var formattedDate = moment.unix(data.dt).format(" (M/DD/YYYY)")
-    $("#date").text(formattedDate);
-    $("#date").text(formattedDate);
-    $("#current-temperature").text("Temperature: " + data.main.temp);
-    $("#current-humidity").text("Humidity: " + data.main.humidity);
-    $("#current-wind-speed").text("Wind Speed: " + data.wind.speed);
+  // if (type === 'current') {
+  $("#city-heading").text(data.name + " - ");
+  console.log(data);
+  var formattedDate = moment.unix(data.dt).format(" ddd, MMM Do")
+  $("#date").text(formattedDate);
+  $("#current-temperature").text("Temperature: " + data.main.temp);
+  $("#current-humidity").text("Humidity: " + data.main.humidity);
+  $("#current-wind-speed").text("Wind Speed: " + data.wind.speed);
 
-    var city = data.name;
-    console.log(city);
+  var city = data.name;
+  console.log(city);
 
-    var queryURL5day = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey + "&units=imperial";
-    $.ajax({
-      url: queryURL5day,
-      method: "GET",
-      dataType: "json",
+  var queryURL5day = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey + "&units=imperial";
+  $.ajax({
+    url: queryURL5day,
+    method: "GET",
+    dataType: "json",
 
-    }).then(function (response) {
+  }).then(function (response) {
 
-      console.log(response);
-      var fiveDayResult = response;
+    console.log(response);
+    var fiveDayResult = response;
 
-/// object with a property called list that's an array. 
-      var formattedFiveDate = moment.unix(response.list[0].dt).format(" (M/DD/YYYY)")
-      var tempFiveDay = response.list[0].main.temp
-      var humidityFiveDay = response.list[0].main.humidity
-      $("#date1").text(formattedFiveDate);
-      $("#day1-temp").text("Temperature: " + tempFiveDay);
-      $("#day1-humidity").text("Humidity: " + humidityFiveDay);
+    /// object with a property called list that's an array. 
+
+    for (var i = 0; i < 40; i += 8) {
+      var formattedFiveDate = moment.unix(response.list[i].dt).format(" ddd, MMM Do")
+      var tempFiveDay = Math.floor(response.list[i].main.temp);
+      var humidityFiveDay = response.list[i].main.humidity
+      var idx = (i / 8) + 1;
+      $("#date" + idx).text(formattedFiveDate);
+      $("#day" + idx + "-temp").text("Temperature: " + tempFiveDay);
+      $("#day" + idx + "-humidity").text("Humidity: " + humidityFiveDay);
       // updateDashboard(fiveDayResult, "five-day")
-    });
-  }
+    }
+
+  });
+  // }
 }
 
 // function getCity () {
+// data-city
 // Updates the list.  Gets called twice.    
 // }
 
@@ -76,7 +108,7 @@ $("#searchCity").keypress(function (event) {
 $("#searchBtn").on("click", function () {
 
   // get the value of the input from user
-  city = $("#searchCity").val();
+  var city = $("#searchCity").val();
   event.preventDefault();
 
   // full url to call api
@@ -96,34 +128,17 @@ $("#searchBtn").on("click", function () {
 
   });
 
-
-  saveCity();
-
+  saveCity(city);
 });
 
+// event handler for cityBtn
+appendToMe.on("click", ".cityBtn", function (event) {
+  var city = $(this).attr("data-city");
 
-function getCoordinates() {
-  navigator.geolocation.getCurrentPosition(function (position) {
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
-    //api.openweathermap.org/data/2.5/weather?lat=35&lon=139
-    var queryURLcurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+  console.log(city);
+  getWeather(city);
+});
 
-    $.ajax({
-      url: queryURLcurrent,
-      method: "GET",
-      dataType: "json",
-
-    }).then(function (response) {
-
-      var currentResult = response;
-      updateDashboard(currentResult, 'current');
-
-    });
-  });
-
-}
-
-getCoordinates();
+getWeather();
 // clear input box
 // $("#searchCity").val(""); 
