@@ -3,6 +3,7 @@ const apiKeyOpenWeather = "2fb02c7aa049104e9c50b0827ae0fae4";      // store api 
 const apiKeyOpenCage = "d716dc2f151f464d814d382c7945fb36";
 
 var cityList = $("#city-list");
+var cityArray = [];
 
 function getLatLong() {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -103,11 +104,17 @@ function updateCurrentUV(city) {
 }
 
 function saveCity(city) {
-  // Puts the city in local storage.
-  localStorage.setItem("city", city);
-  var cityBtn = `<button type="button" class="btn btn-secondary cityBtn" data-city=${city}>${city}</button>`;
-  // template literal
-  cityList.append(cityBtn);
+  if (cityArray.indexOf(city) === -1) {
+// Puts the city in local storage.
+// localStorage.setItem("city", city);
+
+// pushes city into cityArray
+cityArray.push(city);
+console.log(cityArray);
+var cityBtn = `<button type="button" class="btn btn-secondary cityBtn" data-city=${city}>${city}</button>`;
+// template literal
+cityList.append(cityBtn);
+  }
 }
 
 // event handler for return key
@@ -131,7 +138,7 @@ $("#searchBtn").on("click", function () {
 // event handler for cityBtn
 cityList.on("click", ".cityBtn", function (event) {
   var city = $(this).attr("data-city");
-  
+  console.log(city);
   updateDashboard(city);
 });
 
