@@ -35,8 +35,11 @@ function updateDashboard(city) {      //function expects city everytime it's ref
   // 2. Searching for a new city.
   // 3. When city buttons in list are clicked.
 
-    var queryCurrent = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKeyOpenWeather + "&units=imperial";
+    city = city.replace(' ', '+')
+    console.log(city);
 
+    var queryCurrent = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=` + apiKeyOpenWeather + "&units=imperial";
+    
     $.ajax({
       url: queryCurrent,
       method: "GET",
@@ -55,7 +58,7 @@ function updateDashboard(city) {      //function expects city everytime it's ref
 
 updateCurrentUV(city);
 
-var queryURL5day = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKeyOpenWeather + "&units=imperial";
+var queryURL5day = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=` + apiKeyOpenWeather + "&units=imperial";
   $.ajax({
     url: queryURL5day,
     method: "GET",
@@ -76,8 +79,20 @@ var queryURL5day = "https://api.openweathermap.org/data/2.5/forecast?q=" + city 
       $("#day" + idx + "-temp").text("Temperature: " + tempFiveDay);
       $("#day" + idx + "-humidity").text("Humidity: " + humidityFiveDay);  
     }
+    
   });
-  saveCity(city);
+  if (cityArray.indexOf(city) === -1) {
+    // Puts the city in local storage.
+    // localStorage.setItem("city", city);
+    
+    // pushes city into cityArray
+    cityArray.push(city);
+    console.log(cityArray);
+    var newCity=city.replace('+', ' ');
+    var cityBtn = `<button type="button" class="btn btn-secondary cityBtn" data-city=${city}>${newCity}</button>`;
+    // template literal
+    cityList.append(cityBtn);
+      }
 }
 
 function updateCurrentUV(city) {
@@ -103,20 +118,6 @@ function updateCurrentUV(city) {
 })
 }
 
-function saveCity(city) {
-  if (cityArray.indexOf(city) === -1) {
-// Puts the city in local storage.
-// localStorage.setItem("city", city);
-
-// pushes city into cityArray
-cityArray.push(city);
-console.log(cityArray);
-var cityBtn = `<button type="button" class="btn btn-secondary cityBtn" data-city=${city}>${city}</button>`;
-// template literal
-cityList.append(cityBtn);
-  }
-}
-
 // event handler for return key
 $("#searchCity").keypress(function (event) {
 
@@ -138,7 +139,6 @@ $("#searchBtn").on("click", function () {
 // event handler for cityBtn
 cityList.on("click", ".cityBtn", function (event) {
   var city = $(this).attr("data-city");
-  console.log(city);
   updateDashboard(city);
 });
 
